@@ -1177,7 +1177,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0261d575-1ccb-423b-9ce1-38e11ea4d8cc")
-		(property "Reference" "J4"
+		(property "Reference" "J6"
 			(at 172.72 87.6299 0)
 			(effects
 				(font
@@ -1195,7 +1195,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 			(at 170.18 87.63 0)
 			(effects
 				(font
@@ -1223,15 +1223,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "03627d7e-dab7-4f37-bef4-a9f24c39694f")
+			(uuid "781d115a-e500-422f-8985-916c9ef904c2")
 		)
 		(pin "2"
-			(uuid "c72cb2fc-a5f6-49ca-b247-01d426cbca58")
+			(uuid "e2cb27cd-d591-4544-8006-00a870757411")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "J4")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -1247,7 +1247,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "103d105d-56f4-40d1-9d7c-cbe03c178b30")
-		(property "Reference" "R26"
+		(property "Reference" "R45"
 			(at 114.3 93.9799 0)
 			(effects
 				(font
@@ -1265,7 +1265,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder"
 			(at 109.982 95.25 90)
 			(effects
 				(font
@@ -1293,15 +1293,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "fc0ba9b4-8eea-49ec-9b2f-6ce4b52820cc")
+			(uuid "078bed18-1c47-4565-8f22-c8d4c95195d4")
 		)
 		(pin "2"
-			(uuid "b32312e4-e106-463d-b224-5b6f140deccb")
+			(uuid "cb360863-3acd-46b6-aa48-fc5f6aafa2c6")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "R26")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "R45")
 					(unit 1)
 				)
 			)
@@ -1317,7 +1317,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "10ede7bb-8ada-45c3-99cf-39d8b22df5f3")
-		(property "Reference" "R27"
+		(property "Reference" "R46"
 			(at 114.3 107.9499 0)
 			(effects
 				(font
@@ -1335,7 +1335,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder"
 			(at 109.982 109.22 90)
 			(effects
 				(font
@@ -1363,15 +1363,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "39159f4a-05e9-4acb-8006-fa81548cd7a5")
+			(uuid "fe1b6729-ad41-4289-8f60-d6fc5469f71c")
 		)
 		(pin "2"
-			(uuid "dd60d9d6-c330-44a1-b118-fab8d9759a21")
+			(uuid "5fb79dec-6ff0-4ee5-8733-7f0484d62ff2")
 		)
 		(instances
 			(project "small_oscilloscope"
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "R27")
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "R46")
 					(unit 1)
 				)
 			)
@@ -1387,7 +1387,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2cbd5d5f-701b-42ea-a78c-f541cff6036b")
-		(property "Reference" "R23"
+		(property "Reference" "R44"
 			(at 66.04 59.69 90)
 			(effects
 				(font
@@ -1403,7 +1403,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 66.04 67.818 90)
 			(effects
 				(font
@@ -1431,15 +1431,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "2b9b3939-df95-4fb0-ba37-dca000ae5b15")
+			(uuid "8a38d177-fd82-47b3-9fd0-e986c833a577")
 		)
 		(pin "2"
-			(uuid "d45f96ef-6246-49b1-84ff-388fb8a5595e")
+			(uuid "4de2921e-dabd-4963-bc2e-0c66e59a7cbb")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "R23")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "R44")
 					(unit 1)
 				)
 			)
@@ -1455,7 +1455,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "323c044b-648d-4cf7-aad3-f2506594cd0c")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR094"
 			(at 93.98 121.92 0)
 			(effects
 				(font
@@ -1500,12 +1500,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "90862c41-8e37-460b-ae36-f42290761d94")
+			(uuid "5cb328b5-ff7b-4ce2-bb51-079455b7441e")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "#PWR046")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "#PWR094")
 					(unit 1)
 				)
 			)
@@ -1521,7 +1521,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3f549560-a88d-4a80-ac4d-036c54dd5a96")
-		(property "Reference" "U4"
+		(property "Reference" "U12"
 			(at 95.25 101.5999 0)
 			(effects
 				(font
@@ -1539,7 +1539,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
 			(at 96.52 102.87 0)
 			(effects
 				(font
@@ -1582,18 +1582,18 @@
 			(uuid "7b31edcb-40a0-454d-9aba-ede841ebd7b7")
 		)
 		(pin "4"
-			(uuid "3300021b-0d39-4944-baf2-fc884d20c2cc")
+			(uuid "2ab05764-f843-4a6b-9b28-c490199644ff")
 		)
 		(pin "3"
 			(uuid "2bfdd6d1-9cd2-4f95-86f7-bebc76ef07fb")
 		)
 		(pin "8"
-			(uuid "57f1ee25-9717-47b1-abf6-78b55ca44131")
+			(uuid "951b1a0b-0742-46e1-9af4-84256ec0dc9b")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "U4")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "U12")
 					(unit 3)
 				)
 			)
@@ -1609,7 +1609,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4593d011-b7c0-4566-9287-71ec8915f967")
-		(property "Reference" "U4"
+		(property "Reference" "U12"
 			(at 139.7 58.42 0)
 			(effects
 				(font
@@ -1625,7 +1625,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
 			(at 139.7 68.58 0)
 			(effects
 				(font
@@ -1653,33 +1653,33 @@
 			)
 		)
 		(pin "1"
-			(uuid "56050254-d89d-475c-970d-5cbd835523a9")
+			(uuid "281c4ec0-af2b-4f63-87d2-bc0f5640472d")
 		)
 		(pin "2"
-			(uuid "591e397c-ce4e-49ac-916b-3efeffbdd875")
+			(uuid "bf908a5f-ec65-456a-aa9d-ad257723c168")
 		)
 		(pin "5"
-			(uuid "eddadf43-7c7a-48e9-b19f-8ebeba07bbba")
+			(uuid "eddadf43-7c7a-48e9-b19f-8ebeba07bbbb")
 		)
 		(pin "7"
-			(uuid "495ded40-52ae-4b27-bf7d-c36a595ae440")
+			(uuid "495ded40-52ae-4b27-bf7d-c36a595ae441")
 		)
 		(pin "6"
-			(uuid "7b31edcb-40a0-454d-9aba-ede841ebd7b7")
+			(uuid "7b31edcb-40a0-454d-9aba-ede841ebd7b8")
 		)
 		(pin "4"
-			(uuid "3300021b-0d39-4944-baf2-fc884d20c2cc")
+			(uuid "3300021b-0d39-4944-baf2-fc884d20c2cd")
 		)
 		(pin "3"
-			(uuid "f76e29da-fb28-4dfc-bf2c-1d70cabf0015")
+			(uuid "8473e53a-a6e7-473c-8503-70cc9fa25213")
 		)
 		(pin "8"
-			(uuid "57f1ee25-9717-47b1-abf6-78b55ca44131")
+			(uuid "57f1ee25-9717-47b1-abf6-78b55ca44132")
 		)
 		(instances
 			(project "small_oscilloscope"
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "U4")
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "U12")
 					(unit 1)
 				)
 			)
@@ -1695,7 +1695,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5e432853-a85f-443a-89ba-e7e7be258801")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR093"
 			(at 73.66 90.17 0)
 			(effects
 				(font
@@ -1740,12 +1740,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "5a722df8-8a34-417c-b02a-1825bac3fa47")
+			(uuid "0916ea1c-c565-42ca-a470-35c072153a04")
 		)
 		(instances
 			(project "small_oscilloscope"
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "#PWR047")
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "#PWR093")
 					(unit 1)
 				)
 			)
@@ -1761,7 +1761,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9f34c606-e01a-41bc-a654-c82e80e73771")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR095"
 			(at 111.76 125.73 0)
 			(effects
 				(font
@@ -1806,12 +1806,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "10198c16-6003-4536-a2d6-951bb76acd43")
+			(uuid "323f8947-d0b2-4e53-81f2-585046e70375")
 		)
 		(instances
 			(project "small_oscilloscope"
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "#PWR048")
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "#PWR095")
 					(unit 1)
 				)
 			)
@@ -1827,7 +1827,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a2cb5e6d-4699-4c40-afb6-35b919da101f")
-		(property "Reference" "U4"
+		(property "Reference" "U12"
 			(at 139.7 93.98 0)
 			(effects
 				(font
@@ -1843,7 +1843,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
 			(at 139.7 104.14 0)
 			(effects
 				(font
@@ -1871,33 +1871,33 @@
 			)
 		)
 		(pin "1"
-			(uuid "b39cfc10-ca71-4955-8f0d-7b4dca53a089")
+			(uuid "b39cfc10-ca71-4955-8f0d-7b4dca53a08a")
 		)
 		(pin "2"
-			(uuid "1a6a5ab9-eb27-432f-9d8e-e4d9609c3e28")
+			(uuid "1a6a5ab9-eb27-432f-9d8e-e4d9609c3e29")
 		)
 		(pin "5"
-			(uuid "eddadf43-7c7a-48e9-b19f-8ebeba07bbba")
+			(uuid "bf249aa4-11b7-4b66-b3cf-6e4e69c5f5fe")
 		)
 		(pin "7"
-			(uuid "495ded40-52ae-4b27-bf7d-c36a595ae440")
+			(uuid "baffc8eb-eefd-47c2-9075-22b32e2eb097")
 		)
 		(pin "6"
-			(uuid "7b31edcb-40a0-454d-9aba-ede841ebd7b7")
+			(uuid "f5fb34cc-bf37-46be-983b-dc12a1d75b50")
 		)
 		(pin "4"
-			(uuid "3300021b-0d39-4944-baf2-fc884d20c2cc")
+			(uuid "3300021b-0d39-4944-baf2-fc884d20c2ce")
 		)
 		(pin "3"
-			(uuid "2bfdd6d1-9cd2-4f95-86f7-bebc76ef07fb")
+			(uuid "2bfdd6d1-9cd2-4f95-86f7-bebc76ef07fc")
 		)
 		(pin "8"
-			(uuid "57f1ee25-9717-47b1-abf6-78b55ca44131")
+			(uuid "57f1ee25-9717-47b1-abf6-78b55ca44133")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "U4")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "U12")
 					(unit 2)
 				)
 			)
@@ -1913,7 +1913,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "afa736d8-3bd0-4154-8002-4a177c633d99")
-		(property "Reference" "C6"
+		(property "Reference" "C10"
 			(at 77.47 72.3899 0)
 			(effects
 				(font
@@ -1922,7 +1922,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "20n"
+		(property "Value" "20p"
 			(at 77.47 74.9299 0)
 			(effects
 				(font
@@ -1931,7 +1931,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder"
 			(at 74.6252 77.47 0)
 			(effects
 				(font
@@ -1959,15 +1959,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "a64e3441-f079-486b-96a6-34003d05d0cf")
+			(uuid "c45f4829-1ad1-42f2-ad0b-861dadd434a2")
 		)
 		(pin "2"
-			(uuid "ec6fe1c7-895b-4d8c-b557-ec688c4cd111")
+			(uuid "099877ab-63e2-43d9-85c6-af0890e2ce38")
 		)
 		(instances
-			(project ""
-				(path "/722ad30e-a672-4959-92bf-662e54054c44/361d5bc8-a591-4e5d-9bf7-7ac2147493e8"
-					(reference "C6")
+			(project "small_oscilloscope"
+				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
+					(reference "C10")
 					(unit 1)
 				)
 			)
