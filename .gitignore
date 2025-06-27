@@ -1,3 +1,6 @@
+small_oscilloscope-backups/
+gerber/
+
 # ESP-IDF build artifacts
 build/
 sdkconfig.old
