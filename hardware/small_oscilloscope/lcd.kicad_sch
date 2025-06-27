@@ -448,7 +448,7 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "U2"
+			(property "Reference" "U11"
 				(at 35.56 10.16 0)
 				(effects
 					(font
@@ -464,7 +464,7 @@
 					)
 				)
 			)
-			(property "Footprint" "VQFN48_FT800_BRI"
+			(property "Footprint" "Package_DFN_QFN:VQFN-48-1EP_6x6mm_P0.4mm_EP4.1x4.1mm_ThermalVias"
 				(at 57.15 -78.74 0)
 				(effects
 					(font
@@ -491,14 +491,6 @@
 						(size 1.27 1.27)
 					)
 					(hide yes)
-				)
-			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
 				)
 			)
 			(property "ki_keywords" "FT800Q-T"
@@ -837,24 +829,6 @@
 						)
 					)
 					(number "23"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 0 -73.66 0)
-					(length 7.62)
-					(name "EPAD"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "EPAD"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1416,6 +1390,24 @@
 						(color 255 255 194 1)
 					)
 				)
+				(pin power_out line
+					(at 0 -73.66 0)
+					(length 7.62)
+					(name "EPAD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "49"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
 			(embedded_fonts no)
 		)
@@ -1426,20 +1418,22 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "J"
-				(at -6.096 54.61 0)
+			(property "Reference" "J5"
+				(at -15.24 0.0001 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify right)
 				)
 			)
 			(property "Value" "Parellel LCD"
-				(at -5.842 -57.912 0)
+				(at -15.24 -2.5399 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify right)
 				)
 			)
 			(property "Footprint" "Connector_FFC-FPC:TE_4-1734839-0_1x40-1MP_P0.5mm_Horizontal"
@@ -2429,7 +2423,7 @@
 							)
 						)
 					)
-					(number "1"
+					(number "40"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2447,7 +2441,7 @@
 							)
 						)
 					)
-					(number "2"
+					(number "39"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2465,7 +2459,7 @@
 							)
 						)
 					)
-					(number "3"
+					(number "38"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2483,7 +2477,7 @@
 							)
 						)
 					)
-					(number "4"
+					(number "37"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2501,7 +2495,7 @@
 							)
 						)
 					)
-					(number "5"
+					(number "36"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2519,7 +2513,7 @@
 							)
 						)
 					)
-					(number "6"
+					(number "35"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2537,7 +2531,7 @@
 							)
 						)
 					)
-					(number "7"
+					(number "34"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2555,7 +2549,7 @@
 							)
 						)
 					)
-					(number "8"
+					(number "33"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2573,7 +2567,7 @@
 							)
 						)
 					)
-					(number "9"
+					(number "32"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2591,7 +2585,7 @@
 							)
 						)
 					)
-					(number "10"
+					(number "31"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2609,7 +2603,7 @@
 							)
 						)
 					)
-					(number "11"
+					(number "30"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2627,7 +2621,7 @@
 							)
 						)
 					)
-					(number "12"
+					(number "29"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2645,7 +2639,7 @@
 							)
 						)
 					)
-					(number "13"
+					(number "28"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2663,7 +2657,7 @@
 							)
 						)
 					)
-					(number "14"
+					(number "27"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2681,7 +2675,7 @@
 							)
 						)
 					)
-					(number "15"
+					(number "26"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2699,7 +2693,7 @@
 							)
 						)
 					)
-					(number "16"
+					(number "25"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2717,7 +2711,7 @@
 							)
 						)
 					)
-					(number "17"
+					(number "24"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2735,7 +2729,7 @@
 							)
 						)
 					)
-					(number "18"
+					(number "23"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2753,7 +2747,7 @@
 							)
 						)
 					)
-					(number "19"
+					(number "22"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2771,7 +2765,7 @@
 							)
 						)
 					)
-					(number "20"
+					(number "21"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2789,7 +2783,7 @@
 							)
 						)
 					)
-					(number "21"
+					(number "20"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2807,7 +2801,7 @@
 							)
 						)
 					)
-					(number "22"
+					(number "19"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2825,7 +2819,7 @@
 							)
 						)
 					)
-					(number "23"
+					(number "18"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2843,7 +2837,7 @@
 							)
 						)
 					)
-					(number "24"
+					(number "17"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2861,7 +2855,7 @@
 							)
 						)
 					)
-					(number "25"
+					(number "16"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2879,7 +2873,7 @@
 							)
 						)
 					)
-					(number "26"
+					(number "15"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2897,7 +2891,7 @@
 							)
 						)
 					)
-					(number "27"
+					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2915,7 +2909,7 @@
 							)
 						)
 					)
-					(number "28"
+					(number "13"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2933,7 +2927,7 @@
 							)
 						)
 					)
-					(number "29"
+					(number "12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2951,7 +2945,7 @@
 							)
 						)
 					)
-					(number "30"
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2969,7 +2963,7 @@
 							)
 						)
 					)
-					(number "31"
+					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2987,7 +2981,7 @@
 							)
 						)
 					)
-					(number "32"
+					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3005,7 +2999,7 @@
 							)
 						)
 					)
-					(number "33"
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3023,7 +3017,7 @@
 							)
 						)
 					)
-					(number "34"
+					(number "7"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3041,7 +3035,7 @@
 							)
 						)
 					)
-					(number "35"
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3059,7 +3053,7 @@
 							)
 						)
 					)
-					(number "36"
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3077,7 +3071,7 @@
 							)
 						)
 					)
-					(number "37"
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3095,7 +3089,7 @@
 							)
 						)
 					)
-					(number "38"
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3113,7 +3107,7 @@
 							)
 						)
 					)
-					(number "39"
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3131,7 +3125,25 @@
 							)
 						)
 					)
-					(number "40"
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -53.34 180)
+					(length 3.81)
+					(name "MP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "MP"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3955,6 +3967,12 @@
 		(uuid "665a849d-9ce3-49ff-a2da-e1091e568346")
 	)
 	(junction
+		(at 203.2 134.62)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7c4f23ad-7d5c-4036-8fe0-0d9db0b04687")
+	)
+	(junction
 		(at 203.2 121.92)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4269,6 +4287,16 @@
 			(type default)
 		)
 		(uuid "2ff0e088-552e-4951-bd5b-0f0fa9b44eb6")
+	)
+	(wire
+		(pts
+			(xy 203.2 134.62) (xy 203.2 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "331a3d58-8fad-45ba-948b-543f34f051f1")
 	)
 	(wire
 		(pts
@@ -4692,6 +4720,16 @@
 	)
 	(wire
 		(pts
+			(xy 203.2 134.62) (xy 205.74 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6534ce29-748b-43b5-89b6-c00efbd61fd8")
+	)
+	(wire
+		(pts
 			(xy 185.42 48.26) (xy 205.74 48.26)
 		)
 		(stroke
@@ -4952,7 +4990,7 @@
 	)
 	(wire
 		(pts
-			(xy 203.2 137.16) (xy 203.2 121.92)
+			(xy 203.2 137.16) (xy 203.2 134.62)
 		)
 		(stroke
 			(width 0)
@@ -5802,7 +5840,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "1k"
 			(at 58.42 80.0099 0)
 			(effects
 				(font
@@ -5811,7 +5849,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 54.102 78.74 90)
 			(effects
 				(font
@@ -6158,7 +6196,7 @@
 		(pin "23"
 			(uuid "68530a7d-4433-40df-8eb5-46c5c6c8b2c5")
 		)
-		(pin "EPAD"
+		(pin "49"
 			(uuid "02df698f-9649-437c-807b-74718dce70dc")
 		)
 		(pin "20"
@@ -6697,7 +6735,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+		(property "Footprint" "Connector_FFC-FPC:TE_4-1734839-0_1x40-1MP_P0.5mm_Horizontal"
 			(at 209.55 145.542 0)
 			(effects
 				(font
@@ -6843,6 +6881,9 @@
 		)
 		(pin "40"
 			(uuid "a6cfa0d3-54e0-4a28-bcea-349db6a6467c")
+		)
+		(pin "MP"
+			(uuid "40a4ff6f-b7ac-43b4-98fe-f1216f835ebd")
 		)
 		(instances
 			(project "small_oscilloscope"
