@@ -3145,16 +3145,16 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 62.23 66.04 180)
+		(at 62.23 66.04 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "4782ce54-05b1-4372-bab1-658806afffdf")
 		(property "Reference" "D5"
-			(at 63.8175 58.42 0)
+			(at 60.6425 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3162,7 +3162,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 63.8175 60.96 0)
+			(at 60.6425 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3630,16 +3630,16 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 62.23 53.34 180)
+		(at 62.23 53.34 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6711d10d-9bc0-48aa-9e02-6c43b0642a95")
 		(property "Reference" "D4"
-			(at 63.8175 45.72 0)
+			(at 60.6425 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3647,7 +3647,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 63.8175 48.26 0)
+			(at 60.6425 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4177,16 +4177,16 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 62.23 101.6 180)
+		(at 62.23 101.6 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "a85e0c9d-c7fa-464b-a5fd-2de686eb8119")
 		(property "Reference" "D7"
-			(at 63.8175 93.98 0)
+			(at 60.6425 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4194,7 +4194,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 63.8175 96.52 0)
+			(at 60.6425 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4936,16 +4936,16 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 62.23 90.17 180)
+		(at 62.23 90.17 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "ed5945c6-9d40-42fd-97af-8e916df2f6a5")
 		(property "Reference" "D6"
-			(at 63.8175 82.55 0)
+			(at 60.6425 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4953,7 +4953,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 63.8175 85.09 0)
+			(at 60.6425 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
