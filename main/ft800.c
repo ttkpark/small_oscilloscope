@@ -49,14 +49,14 @@ uint32_t ft800_read32(ft800_handle_t *dev, uint32_t addr) {
 esp_err_t ft800_init(ft800_handle_t *dev, spi_host_device_t host, int mosi, int sclk, int cs) {
     spi_bus_config_t buscfg = {
         .miso_io_num = 19,
-        .mosi_io_num = mosi,
-        .sclk_io_num = sclk,
+        .mosi_io_num = 23,
+        .sclk_io_num = 18,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
         .max_transfer_sz = 64,
     };
     spi_device_interface_config_t devcfg = {
-        .clock_speed_hz = 1000000, // 5000kHz
+        .clock_speed_hz = 1000000, // 1MHz
         .mode = 0,
         .spics_io_num = cs,
         .queue_size = 3,
@@ -80,6 +80,13 @@ esp_err_t ft800_init(ft800_handle_t *dev, spi_host_device_t host, int mosi, int 
     
     // FT800 초기화 시퀀스 (프로그래머 가이드 기반)
     ESP_LOGI(TAG, "Starting FT800 initialization sequence...");
+    
+    ret = ft800_check_id(dev);
+    while (ret != ESP_OK)
+    {
+        ret = ft800_check_id(dev);
+        vTaskDelay(0);
+    }
     
     // 1. 칩 ID 확인
     ret = ft800_check_id(dev);
