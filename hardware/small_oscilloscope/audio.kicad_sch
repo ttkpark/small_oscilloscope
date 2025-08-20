@@ -1172,7 +1172,7 @@
 		(at 170.18 87.63 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
@@ -1186,7 +1186,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Conn_01x02"
+		(property "Value" "SPEAKER"
 			(at 172.72 90.1699 0)
 			(effects
 				(font
@@ -1195,7 +1195,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical"
 			(at 170.18 87.63 0)
 			(effects
 				(font
@@ -1242,12 +1242,12 @@
 		(at 111.76 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "103d105d-56f4-40d1-9d7c-cbe03c178b30")
-		(property "Reference" "R45"
+		(property "Reference" "R91"
 			(at 114.3 93.9799 0)
 			(effects
 				(font
@@ -1301,7 +1301,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "R45")
+					(reference "R91")
 					(unit 1)
 				)
 			)
@@ -1312,12 +1312,12 @@
 		(at 111.76 109.22 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "10ede7bb-8ada-45c3-99cf-39d8b22df5f3")
-		(property "Reference" "R46"
+		(property "Reference" "R92"
 			(at 114.3 107.9499 0)
 			(effects
 				(font
@@ -1371,7 +1371,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "R46")
+					(reference "R92")
 					(unit 1)
 				)
 			)
@@ -1382,12 +1382,12 @@
 		(at 66.04 66.04 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2cbd5d5f-701b-42ea-a78c-f541cff6036b")
-		(property "Reference" "R44"
+		(property "Reference" "R90"
 			(at 66.04 59.69 90)
 			(effects
 				(font
@@ -1439,7 +1439,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "R44")
+					(reference "R90")
 					(unit 1)
 				)
 			)
@@ -1455,7 +1455,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "323c044b-648d-4cf7-aad3-f2506594cd0c")
-		(property "Reference" "#PWR094"
+		(property "Reference" "#PWR0146"
 			(at 93.98 121.92 0)
 			(effects
 				(font
@@ -1505,7 +1505,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "#PWR094")
+					(reference "#PWR0146")
 					(unit 1)
 				)
 			)
@@ -1516,12 +1516,12 @@
 		(at 96.52 102.87 0)
 		(unit 3)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3f549560-a88d-4a80-ac4d-036c54dd5a96")
-		(property "Reference" "U12"
+		(property "Reference" "U13"
 			(at 95.25 101.5999 0)
 			(effects
 				(font
@@ -1539,7 +1539,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
+		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
 			(at 96.52 102.87 0)
 			(effects
 				(font
@@ -1593,7 +1593,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "U12")
+					(reference "U13")
 					(unit 3)
 				)
 			)
@@ -1604,12 +1604,12 @@
 		(at 139.7 68.58 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4593d011-b7c0-4566-9287-71ec8915f967")
-		(property "Reference" "U12"
+		(property "Reference" "U13"
 			(at 139.7 58.42 0)
 			(effects
 				(font
@@ -1625,7 +1625,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
+		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
 			(at 139.7 68.58 0)
 			(effects
 				(font
@@ -1679,7 +1679,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "U12")
+					(reference "U13")
 					(unit 1)
 				)
 			)
@@ -1695,7 +1695,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5e432853-a85f-443a-89ba-e7e7be258801")
-		(property "Reference" "#PWR093"
+		(property "Reference" "#PWR0145"
 			(at 73.66 90.17 0)
 			(effects
 				(font
@@ -1745,7 +1745,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "#PWR093")
+					(reference "#PWR0145")
 					(unit 1)
 				)
 			)
@@ -1761,7 +1761,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9f34c606-e01a-41bc-a654-c82e80e73771")
-		(property "Reference" "#PWR095"
+		(property "Reference" "#PWR0147"
 			(at 111.76 125.73 0)
 			(effects
 				(font
@@ -1811,7 +1811,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "#PWR095")
+					(reference "#PWR0147")
 					(unit 1)
 				)
 			)
@@ -1822,12 +1822,12 @@
 		(at 139.7 104.14 0)
 		(unit 2)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a2cb5e6d-4699-4c40-afb6-35b919da101f")
-		(property "Reference" "U12"
+		(property "Reference" "U13"
 			(at 139.7 93.98 0)
 			(effects
 				(font
@@ -1843,7 +1843,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-8_W7.62mm_LongPads"
+		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
 			(at 139.7 104.14 0)
 			(effects
 				(font
@@ -1897,7 +1897,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "U12")
+					(reference "U13")
 					(unit 2)
 				)
 			)
@@ -1908,12 +1908,12 @@
 		(at 73.66 73.66 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "afa736d8-3bd0-4154-8002-4a177c633d99")
-		(property "Reference" "C10"
+		(property "Reference" "C14"
 			(at 77.47 72.3899 0)
 			(effects
 				(font
@@ -1967,7 +1967,7 @@
 		(instances
 			(project "small_oscilloscope"
 				(path "/722ad30e-a672-4959-92bf-662e54054c44/cef6da11-c0f0-4933-af38-0fa8b3242acf/40985c4a-08eb-4c1d-83fc-6aefc7584ddd"
-					(reference "C10")
+					(reference "C14")
 					(unit 1)
 				)
 			)

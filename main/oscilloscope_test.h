@@ -10,7 +10,7 @@
 #define I2C_SDA_PIN         21
 #define SPI_SS_PIN          5
 #define SPI_MOSI_PIN        23
-#define SPI_MISO_PIN        -1
+#define SPI_MISO_PIN        19
 #define SPI_SCLK_PIN        18
 #define TRIG0_PIN           17
 #define TRIG1_PIN           16
