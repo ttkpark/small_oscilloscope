@@ -34,6 +34,7 @@ uint16_t* get_adc_buffer(void);
 int get_adc_buffer_index(void);
 uint16_t get_adc_latest_value1(void);
 uint16_t get_adc_latest_value2(void);
+uint16_t *get_adc_Vrefs(void);
 
 // 새로운 ADC DMA 전용 함수들
 uint32_t* get_adc_dma_buffer_ch0(void);

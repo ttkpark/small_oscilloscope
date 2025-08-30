@@ -163,7 +163,8 @@ void HOST_CMD_WRITE(uint8_t CMD)
 
 void HOST_CMD_ACTIVE(void)
 {
-  ft800_read8(driver_dev, 0x000000);
+    uint8_t buf[3] = { 0x00, 0x00, 0x00 };
+    ft800_spi_transfer(driver_dev, buf, NULL, 3);
 }
 
 /*
@@ -259,6 +260,11 @@ uint8_t cmd_execute(uint32_t data)
 
 uint8_t cmd(uint32_t data)
 {
+    /*if(data == CMD_DLSTART){
+        HOST_CMD_ACTIVE();
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }*/
+        
 	for(int8_t tryCount = 10; tryCount > 0; --tryCount)
 	{
 		if(cmd_execute(data)) { return 1; }
@@ -509,6 +515,12 @@ uint8_t initFT800(void)
 	pdev = get_driver_dev();
 
 	//WAKE
+	HOST_CMD_ACTIVE();
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+	HOST_CMD_WRITE(CMD_CORERST);
+    vTaskDelay(pdMS_TO_TICKS(100));
+
 	HOST_CMD_ACTIVE();
     vTaskDelay(pdMS_TO_TICKS(100));
 

@@ -6,7 +6,8 @@
 #include "esp_log.h"
 #include "driver/i2c.h"
 #include "driver/gpio.h"
-#include "driver/adc.h"
+#include "esp_adc/adc_oneshot.h"
+#include "esp_adc/adc_continuous.h"
 #include "esp_timer.h"
 #include "ft800.h"
 #include "analog_test_simple.h"
@@ -171,92 +172,130 @@ static esp_err_t init_gpio(void) {
     io_conf.pin_bit_mask = (1ULL << GPIO_TRIG0) | (1ULL << GPIO_TRIG1);
     ret = gpio_config(&io_conf);
     if (ret != ESP_OK) return ret;
+
     
+    // 로터리 인코더 핀 설정 (폴링 방식)
+    gpio_config_t io_conf2 = {
+        .pin_bit_mask = (1ULL << FT800_SPI_MISO_PIN),
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE,
+    };
+    ret = gpio_config(&io_conf2);
+    if (ret != ESP_OK) return ret;
+
+    gpio_set_level(FT800_SPI_MISO_PIN, 1);
+    vTaskDelay(pdMS_TO_TICKS(100));
+    gpio_set_level(FT800_SPI_MISO_PIN, 0);
+    vTaskDelay(pdMS_TO_TICKS(100));
+
     return ESP_OK;
 }
 
 // ADC 버퍼 (256 샘플) - ADC DMA Continuous Mode 사용
-#define ADC_BUFFER_SIZE 256
 static uint32_t adc_buffer_ch0[ADC_BUFFER_SIZE]; // 채널 0 데이터
 static uint32_t adc_buffer_ch1[ADC_BUFFER_SIZE]; // 채널 1 데이터
 static uint16_t adc_buffer_compat[ADC_BUFFER_SIZE * 2]; // 호환성을 위한 16비트 버퍼
 static volatile uint16_t adc_latest_value1 = 0;
 static volatile uint16_t adc_latest_value2 = 0;
+static volatile uint16_t adc_Vrefs[5] = {0,0,0,0,0};
 static volatile int adc_buffer_index = 0;
 static bool adc_dma_enabled = false;
 
+// Polling 데이터를 위한 전역 버퍼 (스택 오버플로우 방지)
+static uint32_t polling_ch0_buffer[ADC_BUFFER_SIZE];
+static uint32_t polling_ch1_buffer[ADC_BUFFER_SIZE];
+static uint32_t polling_ch2_buffer[ADC_BUFFER_SIZE];
+static uint32_t polling_ch3_buffer[ADC_BUFFER_SIZE];
+
 // ADC 초기화 (DMA Continuous Mode)
 static esp_err_t init_adc(void) {
-    // ADC DMA Continuous Mode 초기화
+    // ADC Continuous + Polling Mode 초기화
     esp_err_t ret = adc_dma_continuous_init();
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "ADC DMA init failed: %s", esp_err_to_name(ret));
-        // 폴백: 기존 폴링 방식
-        adc1_config_width(ADC_WIDTH_BIT_12);
-        adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_0); // GPIO34
-        adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_DB_0); // GPIO4
+        ESP_LOGE(TAG, "ADC init failed: %s", esp_err_to_name(ret));
         adc_dma_enabled = false;
-        ESP_LOGW(TAG, "ADC DMA init failed, using polling mode");
+        ESP_LOGW(TAG, "ADC init failed, using fallback mode");
         return ESP_OK;
     }
     
-    // ADC DMA Continuous Mode 시작
+    // ADC Continuous + Polling Mode 시작
     ret = adc_dma_continuous_start();
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "ADC DMA start failed: %s", esp_err_to_name(ret));
-        // 폴백: 기존 폴링 방식
-        adc1_config_width(ADC_WIDTH_BIT_12);
-        adc1_config_channel_atten(ADC1_CHANNEL_6, ADC_ATTEN_DB_0); // GPIO34
-        adc2_config_channel_atten(ADC2_CHANNEL_0, ADC_ATTEN_DB_0); // GPIO4
+        ESP_LOGE(TAG, "ADC start failed: %s", esp_err_to_name(ret));
         adc_dma_enabled = false;
-        ESP_LOGW(TAG, "ADC DMA start failed, using polling mode");
+        ESP_LOGW(TAG, "ADC start failed, using fallback mode");
         return ESP_OK;
     }
     
     adc_dma_enabled = true;
-    ESP_LOGI(TAG, "ADC DMA Continuous Mode initialized successfully");
+    ESP_LOGI(TAG, "ADC Continuous + Polling Mode initialized successfully");
     return ESP_OK;
+}
+static uint16_t get_adc_Vref(uint32_t *buf, uint16_t size)
+{
+    uint32_t sum = 0, cnt = 0;
+    for(int i = 0; i < size; i++){
+        if(buf[i] < 40 || buf[i] > 4050)continue;
+        sum += buf[i];
+        cnt++;
+    }
+    if(cnt == 0)return 0;
+    else return sum / cnt;
 }
 
 // ADC 읽기 태스크 (DMA 또는 폴링 방식)
 static void adc_read_task(void *pvParameters) {
-    ESP_LOGI(TAG, "ADC read task started (DMA enabled: %s)", adc_dma_enabled ? "Yes" : "No");
+    ESP_LOGI(TAG, "ADC read task started (Continuous + Polling mode) - Core %d", xPortGetCoreID());
     
     while (1) {
         if (adc_dma_enabled) {
-            // DMA 모드: 최신 전압값 가져오기
+            // Continuous 모드: GPIO34, GPIO35 데이터 가져오기
             uint32_t voltage_ch0_mv, voltage_ch1_mv;
             esp_err_t ret = adc_dma_get_latest_voltage(&voltage_ch0_mv, &voltage_ch1_mv);
             if (ret == ESP_OK) {
-                // mV를 12비트 ADC 값으로 변환 (대략적인 역변환)
+                // mV를 12비트 ADC 값으로 변환
                 adc_latest_value1 = (voltage_ch0_mv * 4095) / 3300;
                 adc_latest_value2 = (voltage_ch1_mv * 4095) / 3300;
+                
+                                 // 디버깅: 주기적으로 ADC 값 로그
+                static uint32_t log_counter = 0;
+                if (log_counter++ % 100 == 0) {
+                    ESP_LOGI(TAG, "Continuous ADC values: ch0=%" PRIu32 " mV(%u), ch1=%" PRIu32 " mV(%u) (Core %d)", 
+                            voltage_ch0_mv, adc_latest_value1, voltage_ch1_mv, adc_latest_value2, xPortGetCoreID());
+                }
+                
+            }
+
+            // Polling 모드: GPIO36-39 데이터 가져오기 (전역 버퍼 사용)
+            uint32_t polling_count;
+            ret = adc_get_polling_data(polling_ch0_buffer, polling_ch1_buffer, polling_ch2_buffer, polling_ch3_buffer, &polling_count);
+            if (ret == ESP_OK && polling_count > 0) {
+                // Vref 측정값 저장 (GPIO36-39)
+                adc_Vrefs[0] = 0;
+
+                adc_Vrefs[1] = get_adc_Vref(polling_ch0_buffer, ADC_POLLING_BUFFER_SIZE);
+                adc_Vrefs[2] = get_adc_Vref(polling_ch1_buffer, ADC_POLLING_BUFFER_SIZE);
+                adc_Vrefs[3] = get_adc_Vref(polling_ch2_buffer, ADC_POLLING_BUFFER_SIZE);
+                adc_Vrefs[4] = get_adc_Vref(polling_ch3_buffer, ADC_POLLING_BUFFER_SIZE);
             }
             
             // 전체 버퍼 데이터 가져오기 (주기적으로)
             uint32_t data_count;
             ret = adc_dma_get_data(adc_buffer_ch0, adc_buffer_ch1, &data_count);
             if (ret == ESP_OK && data_count > 0) {
-                adc_buffer_index = data_count - 1; // 마지막 샘플 인덱스
+                adc_buffer_index = data_count - 1;
+            }
+            for (int i = 0; i < data_count; i++) {
+                adc_buffer_compat[i] = (uint16_t)(adc_buffer_ch0[i] & 0xFFF); // 12비트 마스크
+                adc_buffer_compat[i + ADC_BUFFER_SIZE] = (uint16_t)(adc_buffer_ch1[i] & 0xFFF);
             }
             
-            vTaskDelay(pdMS_TO_TICKS(10)); // 100Hz 업데이트
+            vTaskDelay(pdMS_TO_TICKS(10)); // 10Hz 업데이트
         } else {
-            // 폴링 모드: 기존 방식
-            adc_latest_value1 = adc1_get_raw(ADC1_CHANNEL_6);
-            
-            int adc2_value = 0;
-            adc2_get_raw(ADC2_CHANNEL_0, ADC_WIDTH_BIT_12, &adc2_value);
-            adc_latest_value2 = adc2_value;
-            
-            // 호환성 버퍼에 데이터 저장
-            adc_buffer_compat[adc_buffer_index] = adc_latest_value1;
-            adc_buffer_compat[adc_buffer_index + ADC_BUFFER_SIZE] = adc_latest_value2;
-            
-            // 버퍼 인덱스 업데이트
-            adc_buffer_index = (adc_buffer_index + 1) % ADC_BUFFER_SIZE;
-            
-            vTaskDelay(pdMS_TO_TICKS(1)); // 1000Hz 업데이트
+            // 폴백 모드
+            vTaskDelay(pdMS_TO_TICKS(100));
         }
     }
 }
@@ -266,14 +305,14 @@ uint16_t get_adc_latest_value(void) {
     return adc_latest_value1; // 기존 호환성을 위해 ADC1 값 반환
 }
 
+uint16_t* get_adc_Vrefs(void) {
+    return adc_Vrefs;
+}
+
 // ADC 버퍼 접근 함수들
 uint16_t* get_adc_buffer(void) {
     if (adc_dma_enabled) {
         // DMA 데이터를 호환성 버퍼로 복사 (32비트 -> 16비트)
-        for (int i = 0; i < ADC_BUFFER_SIZE; i++) {
-            adc_buffer_compat[i] = (uint16_t)(adc_buffer_ch0[i] & 0xFFF); // 12비트 마스크
-            adc_buffer_compat[i + ADC_BUFFER_SIZE] = (uint16_t)(adc_buffer_ch1[i] & 0xFFF);
-        }
         return adc_buffer_compat;
     }
     return adc_buffer_compat; // 폴링 모드에서도 동일한 버퍼 사용
@@ -637,8 +676,8 @@ esp_err_t run_hardware_test(hardware_test_results_t *results) {
         return ret;
     }
     
-    // ADC 읽기 태스크 시작
-    xTaskCreate(adc_read_task, "adc_read", 4096, NULL, 5, NULL);
+    // ADC 읽기 태스크 시작 (Core 0에 할당)
+    xTaskCreatePinnedToCore(adc_read_task, "adc_read", 4096, NULL, 5, NULL, 0);
     
     // DAC 초기화
     ret = init_dac();

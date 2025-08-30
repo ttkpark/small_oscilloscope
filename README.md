@@ -147,7 +147,7 @@ analog_test_simple.c:84 esp_err_t test_ch423_circuit_simple(uint8_t *read_data) 
 |GPIO10|TRIG1|Digital Input, interrupt; open-drain, LOW if TRIG<ADC1|
 |GPIO25|TRIG|Analog Output;  Trigger Output(same level with ADC0,1 pin)|
 |GPIO34|ADC0|Analog Input;  Channel 0 input|
-|GPIO4|ADC1|Analog Input;  Channel 1 input|
+|GPIO35|ADC1|Analog Input;  Channel 1 input|
 |GPIO26|TESTPIN|1kHz Signal Output pin|
 
 |CH423s-OC0|Q1|Output; Line 0 DC input analog switch|
@@ -327,7 +327,6 @@ analog_test_simple.c:84 esp_err_t test_ch423_circuit_simple(uint8_t *read_data) 
 ### 인터페이스 상세
 |position|name|usage|
 |----|----|----|
-|GPIO35|VREF3V3|Analog Reference Input;  3V3(VDD) ref, Vin=V33/2|
 |GPIO36|VREFBAT|Analog Reference Input;  VBAT ref, Vin=VBAT/2|
 |GPIO37|VREF5V |Analog Reference Input;  5V ref, Vin=V5/4.333|
 |GPIO38|VREF12V|Analog Reference Input;  12V ref,Vin=V12/6.732|

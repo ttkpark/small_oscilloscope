@@ -10,6 +10,7 @@
 #include "ft800.h"
 #include "hardware_test.h"
 #include "analog_test_simple.h"
+#include "adc_dma_continuous.h"
 
 static const char *TAG = "INTERACTIVE_TEST";
 
@@ -78,8 +79,8 @@ typedef struct {
 #define CH423_IO_SW1 3
 #define CH423_IO_SW2 4
 #define CH423_IO_SW3 5
-#define CH423_IO_STDBY 6
-#define CH423_IO_CHRG 7
+#define CH423_IO_CHRG 6
+#define CH423_IO_STDBY 7
 
 // LED 제어 상태
 typedef struct {
@@ -124,19 +125,30 @@ typedef struct {
     bool trig0_active;
     bool trig1_active;
     
-    // 배터리 상태
-    bool battery_charging;
-    bool battery_standby;
-    
     // 인코더 카운터
     int re0_counter;
     int re1_counter;
 } input_status_t;
 
+#define ADC_REF_ZENER 1.35f
+typedef struct {
+    uint16_t adc_refZener;
+    uint16_t adc_refBAT;
+    uint16_t adc_ref5V;
+    uint16_t adc_ref12V;
+    float vBAT;
+    float v5;
+    float v12;
+    float vVDD;
+
+    bool battery_charging;
+    bool battery_standby;
+} power_status_t;
+
 static led_control_t led_ctrl = {0};
 static relay_control_t relay_ctrl = {0};
 static input_status_t input_status = {0};
-
+static power_status_t power_status = {0};
 
 uint64_t encoder_last_time[2] = {0U,0U};
 // 인코더 인터럽트 ISR 핸들러
@@ -214,6 +226,8 @@ static void encoder_interrupt_task(void *pvParameters) {
                     g_re1_counter--;
                 }
             }
+        }else{
+            vTaskDelay(pdMS_TO_TICKS(10));
         }
     }
 }
@@ -299,8 +313,8 @@ static void update_input_status(void) {
     esp_err_t ret = ch423_read_input(&input_data);
     if (ret == ESP_OK) {
         // 배터리 상태만 읽기
-        input_status.battery_charging = (input_data & (1 << CH423_IO_CHRG)) != 0;
-        input_status.battery_standby = (input_data & (1 << CH423_IO_STDBY)) != 0;
+        power_status.battery_charging = (input_data & (1 << CH423_IO_CHRG)) == 0;
+        power_status.battery_standby = (input_data & (1 << CH423_IO_STDBY)) == 0;
         
         // 버튼 상태를 여기서 직접 관리
         static bool prev_sw0 = false, prev_sw1 = false, prev_sw2 = false, prev_sw3 = false;
@@ -340,8 +354,6 @@ static void update_input_status(void) {
         input_status.sw3_pressed = false;
         input_status.re0_pressed = false;
         input_status.re1_pressed = false;
-        input_status.battery_charging = false;
-        input_status.battery_standby = false;
     }
 }
 
@@ -485,6 +497,7 @@ static void update_led_states(void) {
 
 // gain test 관련 컨트롤 함수 (공용 변수 사용)
 static void update_gain_test(void) {
+    gain_test_mode_update(relay_ctrl.gain_state);
     if(!relay_ctrl.gain_test_mode)return;
 
     // RE0으로 LED 선택 변경
@@ -508,7 +521,6 @@ static void update_gain_test(void) {
 
         reset_encoder_counters(); // 공용 변수 카운터 리셋
     }
-    gain_test_mode_update(relay_ctrl.gain_state);
     
 }
 
@@ -534,6 +546,23 @@ static void update_relay_states(void) {
     ch423_set_output(CH423_OC_RELAY4, relay_ctrl.relay4_state);
 }
 
+static void update_PowerStatus(void){
+
+    uint16_t *vrefs = get_adc_Vrefs();
+
+    power_status.adc_refZener = vrefs[4];
+    power_status.adc_refBAT = vrefs[1];
+    power_status.adc_ref5V = vrefs[2];
+    power_status.adc_ref12V = vrefs[3];
+
+    float vzener = ADC_REF_ZENER;
+    power_status.vVDD = vzener * 4096.0f / (float)power_status.adc_refZener;
+
+    power_status.vBAT = (float)power_status.adc_refBAT * power_status.vVDD / 4096.0f * 2.0f;
+    power_status.v5 = (float)power_status.adc_ref5V * power_status.vVDD / 4096.0f * 4.333f;
+    power_status.v12 = (float)power_status.adc_ref12V * power_status.vVDD / 4096.0f * 6.732f;
+
+}
 // UI 그리기
 static void draw_ui(void) {
     char status_text[200];
@@ -545,57 +574,69 @@ static void draw_ui(void) {
     cmd(CLEAR(1, 1, 1));
     
     cmd(COLOR_RGB(0xFF, 0xFF, 0xFF));
-    // ADC 값 표시
-    sprintf(status_text, "ADC1: %d, ADC2: %d", get_adc_latest_value1(), get_adc_latest_value2());
-    cmd_text(10, y, 20, 0, status_text);
-    y+=inc;
-    // ADC 그래프 그리기
-    cmd(COLOR_RGB(0x00, 0xFF, 0x00)); // 초록색 (ADC1)
-    cmd(BEGIN(LINES));
+
     uint16_t* adc_buffer = get_adc_buffer();
     int buffer_index = get_adc_buffer_index();
-    int graph_width = 250;
+    int graph_width = 256;
     int graph_height = 180;
-    int graph_x = 200;
+    int graph_x = 480-graph_width-10;
     int graph_y = 25;
+    int graph_y_bottom = graph_y + graph_height;
     
+    int k = 4, rate = ADC_BUFFER_SIZE/graph_width;
 
+    // ADC 값 표시
+    sprintf(status_text, "ADC1: %d, ADC2: %d, bidx : %d", get_adc_latest_value1(), get_adc_latest_value2(), buffer_index);
+    cmd_text(10, y, 20, 0, status_text);
+    y+=inc;
+
+    // ADC 그래프 그리기
+    cmd(COLOR_RGB(0x00, 0xFF, 0x00)); // 초록색 (ADC1)
+    cmd(LINE_WIDTH(8));
+    cmd(BEGIN(LINES));
     // ADC1 그래프 (초록색)
-    for (int i = 0; i < graph_width; i+=3) {
-        int buffer_pos = (buffer_index - graph_width + i + 256) % 256;
+    int prev_y_pos = 0;
+    float addition = (float)buffer_index;
+    for (int i = 0; i < graph_width; i+=k) {
+        addition -= rate;
+        int idx = (int)addition;
+        if(idx < 0)break;
+
+        int buffer_pos = idx;
         int adc_value = adc_buffer[buffer_pos];
-        int y_pos = graph_y + graph_height - (adc_value * graph_height / 4096);
+        int y_pos = graph_y_bottom - (adc_value * graph_height / 4096);
         
         if (i > 0) {
-            int prev_buffer_pos = (buffer_index - graph_width + i - 3 + 256) % 256;
-            int prev_adc_value = adc_buffer[prev_buffer_pos];
-            int prev_y_pos = graph_y + graph_height - (prev_adc_value * graph_height / 4096);
-            
-            cmd(VERTEX2F((graph_x + i - 3) * 16, prev_y_pos * 16));
+            cmd(VERTEX2F((graph_x + i - k) * 16, prev_y_pos * 16));
             cmd(VERTEX2F((graph_x + i) * 16, y_pos * 16));
         }
+        prev_y_pos = y_pos;
     }
     cmd(END());
-    
     
     // ADC2 그래프 (파란색)
     cmd(COLOR_RGB(0x00, 0x00, 0xFF));
     cmd(BEGIN(LINES));
-    for (int i = 0; i < graph_width; i+=3) {
-        int buffer_pos = (buffer_index - graph_width + i + 256) % 256;
-        int adc_value = adc_buffer[buffer_pos + 256]; // ADC2는 버퍼의 후반부
-        int y_pos = graph_y + graph_height - (adc_value * graph_height / 4096);
+    // ADC1 그래프 (초록색)
+    prev_y_pos = 0;
+    addition = (float)(buffer_index+ADC_BUFFER_SIZE);
+    for (int i = 0; i < graph_width; i+=k) {
+        addition -= rate;
+        int idx = (int)addition;
+        if(idx < 0)break;
+
+        int buffer_pos = idx;
+        int adc_value = adc_buffer[buffer_pos];
+        int y_pos = graph_y_bottom - (adc_value * graph_height / 4096);
         
         if (i > 0) {
-            int prev_buffer_pos = (buffer_index - graph_width + i - 3 + 256) % 256;
-            int prev_adc_value = adc_buffer[prev_buffer_pos + 256];
-            int prev_y_pos = graph_y + graph_height - (prev_adc_value * graph_height / 4096);
-            
-            cmd(VERTEX2F((graph_x + i - 3) * 16, prev_y_pos * 16));
+            cmd(VERTEX2F((graph_x + i - k) * 16, prev_y_pos * 16));
             cmd(VERTEX2F((graph_x + i) * 16, y_pos * 16));
         }
+        prev_y_pos = y_pos;
     }
     cmd(END());
+    cmd(LINE_WIDTH(10));
 
     // 그래프 둘레에 흰색 선 그리기
     cmd(COLOR_RGB(0xFF, 0xFF, 0xFF));
@@ -617,7 +658,7 @@ static void draw_ui(void) {
 
     // 제목
     cmd(COLOR_RGB(0xFF, 0xFF, 0xFF));
-    cmd_text(320, 10, 28, OPT_CENTER, "Interactive Hardware Test");
+    cmd_text(480-10, 10, 28, OPT_RIGHTX | OPT_CENTERY, "Interactive Hardware Test");
     y+=inc/2;
     // 구분선
     cmd(COLOR_RGB(0x40, 0x40, 0x40));
@@ -662,10 +703,19 @@ static void draw_ui(void) {
     
     // 배터리 상태
     sprintf(status_text, "Battery: Charging=%s Standby=%s", 
-            input_status.battery_charging ? "YES" : "NO",
-            input_status.battery_standby ? "YES" : "NO");
+            power_status.battery_charging ? "YES" : "NO",
+            power_status.battery_standby ? "YES" : "NO");
     cmd_text(10, y, 20, 0, status_text);
     y+=inc;
+
+    // ADC 값 표시
+    sprintf(status_text, "VDD: %4.2fV BAT: %4.2fV", power_status.vVDD, power_status.vBAT);
+    cmd_text(10, y, 20, 0, status_text);
+    y+=inc;
+    sprintf(status_text, "5V: %4.2fV 12V: %4.2fV", power_status.v5, power_status.v12);
+    cmd_text(10, y, 20, 0, status_text);
+    y+=inc;
+
     
     y+=inc/2;
 
@@ -820,6 +870,25 @@ static void interactive_test_task(void *pvParameters) {
     led_ctrl.led1_state = false;
     led_ctrl.ledre0_state = false;
     led_ctrl.ledre1_state = false;
+
+    relay_ctrl.relay_test_mode = false;
+    relay_ctrl.relay1_state = false;
+    relay_ctrl.relay2_state = false;
+    relay_ctrl.relay3_state = false;
+    relay_ctrl.relay4_state = false;
+    relay_ctrl.selected_relay = 0;  // 0-3: RELAY1, RELAY2, RELAY3, RELAY4
+    relay_ctrl.relay_test_mode = false;  // 릴레이 테스트 모드
+    relay_ctrl.gain_test_mode = false;  // 릴레이 테스트 모드
+
+    relay_ctrl.gain_state[0] = 0; // 0번 AC/DC, 1차, 2차 | 1번 AC/DC, 1차, 2차
+    relay_ctrl.gain_state[1] = 1;
+    relay_ctrl.gain_state[2] = 2;
+    relay_ctrl.gain_state[3] = 0;
+    relay_ctrl.gain_state[4] = 1;
+    relay_ctrl.gain_state[5] = 2;
+
+    relay_ctrl.gain_selected_state = 0; // 0-5
+    relay_ctrl.relay_blink_count = 0;  // 점멸 카운터
     
     // 초기 입력 상태 초기화
     memset(&input_status, 0, sizeof(input_status));
@@ -871,11 +940,13 @@ static void interactive_test_task(void *pvParameters) {
 
         // gain 상태 업데이트
         update_gain_test();
+
+        // 전원 상태 업데이트
+        update_PowerStatus();
         
         // UI 그리기
         draw_ui();
         
-        // 100ms 대기 (10 FPS) - 깜빡임 줄이기
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

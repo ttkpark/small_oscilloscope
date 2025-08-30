@@ -12,7 +12,7 @@
 #define FT800_INT_PIN            27
 
 // SPI 속도 정의 (안전한 값으로 조정)
-#define FT800_SPI_SPEED_HZ      20000000UL  // 20MHz (안정적)
+#define FT800_SPI_SPEED_HZ      16000000UL  // 20MHz (안정적)
 #define FT800_SPI_INIT_SPEED_HZ  5000000UL  // 5MHz (초기화용)
 
 typedef struct {
@@ -184,6 +184,7 @@ ft800_handle_t **get_driver_dev_ptr(void);
 #define OPT_NOPOINTER        16384UL
 #define OPT_NOSECS           32768UL
 #define OPT_NOTICKS          8192UL
+#define OPT_LEFTX            1UL
 #define OPT_RIGHTX           2048UL
 #define OPT_SIGNED           256UL
 #define PALETTED             8UL
