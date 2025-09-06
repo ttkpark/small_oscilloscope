@@ -37,18 +37,21 @@ uint8_t ft800_read8(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[5] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0 };
     uint8_t rx[5] = {0};
     ft800_spi_transfer(dev, tx, rx, 5);
+    ESP_LOGE(LOG_TAG, "FT800 read8 : %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4]);
     return rx[4];
 }
 uint16_t ft800_read16(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[6] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0, 0 };
     uint8_t rx[6] = {0};
     ft800_spi_transfer(dev, tx, rx, 6);
+    ESP_LOGE(LOG_TAG, "FT800 read16: %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5]);
     return rx[4] | (rx[5] << 8);
 }
 uint32_t ft800_read32(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[8] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0, 0, 0, 0 };
     uint8_t rx[8] = {0};
     ft800_spi_transfer(dev, tx, rx, 8);
+    ESP_LOGE(LOG_TAG, "FT800 read32: %02X %02X %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5], rx[6], rx[7]);
     return rx[4] | (rx[5] << 8) | (rx[6] << 16) | (rx[7] << 24);
 }
 
@@ -164,7 +167,8 @@ void HOST_CMD_WRITE(uint8_t CMD)
 void HOST_CMD_ACTIVE(void)
 {
     uint8_t buf[3] = { 0x00, 0x00, 0x00 };
-    ft800_spi_transfer(driver_dev, buf, NULL, 3);
+    ft800_spi_transfer(driver_dev, buf, buf, 3);
+    ESP_LOGE(LOG_TAG, "FT800 HOST_CMD_ACTIVE: %02X %02X %02X", buf[0], buf[1], buf[2]);
 }
 
 /*
@@ -516,7 +520,13 @@ uint8_t initFT800(void)
 
 	//WAKE
 	HOST_CMD_ACTIVE();
-    vTaskDelay(pdMS_TO_TICKS(100));
+	//Read Dev ID
+	uint8_t dev_id = HOST_MEM_RD32(REG_ID+2)&0xFF;      // Read device id
+	if(dev_id != 0x7C)                  // Device ID should always be 0x7C
+	{   
+        ESP_LOGE(LOG_TAG, "FT800 device ID mismatch: 0x%02X", dev_id);
+		return 1;
+	}
 
 	HOST_CMD_WRITE(CMD_CORERST);
     vTaskDelay(pdMS_TO_TICKS(100));
@@ -530,13 +540,6 @@ uint8_t initFT800(void)
 	//PLL (48M) Clock
 	HOST_CMD_WRITE(CMD_CLK48M);         // Send CLK_48M Command (0x62)
 
-	//Read Dev ID
-	uint8_t dev_id = HOST_MEM_RD8(REG_ID);      // Read device id
-	if(dev_id != 0x7C)                  // Device ID should always be 0x7C
-	{   
-        ESP_LOGE(LOG_TAG, "FT800 device ID mismatch: 0x%02X", dev_id);
-		return 1;
-	}
 
 	HOST_MEM_WR8(REG_GPIO, 0x00);			// Set REG_GPIO to 0 to turn off the LCD DISP signal
 	HOST_MEM_WR8(REG_PCLK, 0x00);      		// Pixel Clock Output disable
