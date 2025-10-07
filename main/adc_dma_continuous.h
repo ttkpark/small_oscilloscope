@@ -6,9 +6,9 @@
 #include "esp_err.h"
 
 // DMA 버퍼 설정 (메모리 사용량 줄임)
-#define ADC_BUFFER_SIZE             512   // 256로 줄임
+#define ADC_BUFFER_SIZE             256   // 256로 줄임
 #define ADC_POLLING_BUFFER_SIZE     4
-#define ADC_SAMPLE_FREQ_HZ          100000  // 100kHz
+#define ADC_SAMPLE_FREQ_HZ          8000  // 100kHz
 
 // Polling 주기 설정 (초 단위)
 #define ADC_POLLING_INTERVAL_SEC    1  // 1초마다 Polling 수행

@@ -9,7 +9,6 @@
 #include "esp_timer.h"
 #include "ft800.h"
 #include "hardware_test.h"
-#include "analog_test_simple.h"
 #include "adc_dma_continuous.h"
 
 static const char *TAG = "INTERACTIVE_TEST";
@@ -163,10 +162,10 @@ static void IRAM_ATTR encoder_isr_handler(void* arg) {
         data.encoder_id = 1; // RE1
         // RE1A 상승엣지에서 RE1B 상태 확인
         data.direction = gpio_get_level(GPIO_RE1B) == 1; // B=1이면 시계방향
-    } else if (gpio_num == GPIO_RE0B && gpio_get_level(GPIO_RE0B) == 1) {
+    } else if (gpio_num == GPIO_RE0B && gpio_get_level(GPIO_RE0B) == 0) {
         data.encoder_id = 0; // RE0
         // RE0B 상승엣지에서 RE0A 상태 확인
-        data.direction = gpio_get_level(GPIO_RE0A) == 0; // A=0이면 시계방향
+        data.direction = gpio_get_level(GPIO_RE0A) == 1; // A=0이면 시계방향
     } else {
         return; // 알 수 없는 핀
     }
@@ -227,7 +226,7 @@ static void encoder_interrupt_task(void *pvParameters) {
                 }
             }
         }else{
-            vTaskDelay(pdMS_TO_TICKS(10));
+            vTaskDelay(pdMS_TO_TICKS(1));
         }
     }
 }
@@ -258,7 +257,7 @@ static esp_err_t setup_encoder_interrupts(void) {
     }
     // 인코더 A 핀들을 상승엣지 인터럽트로 설정
     io_conf.pin_bit_mask = (1ULL << GPIO_RE0B);
-    io_conf.intr_type = GPIO_INTR_POSEDGE; // 상승엣지
+    io_conf.intr_type = GPIO_INTR_NEGEDGE; // 상승엣지
     
     ret = gpio_config(&io_conf);
     if (ret != ESP_OK) {
@@ -583,7 +582,7 @@ static void draw_ui(void) {
     int graph_y = 25;
     int graph_y_bottom = graph_y + graph_height;
     
-    int k = 4, rate = ADC_BUFFER_SIZE/graph_width;
+    int k = 1, rate = ADC_BUFFER_SIZE/graph_width;
 
     // ADC 값 표시
     sprintf(status_text, "ADC1: %d, ADC2: %d, bidx : %d", get_adc_latest_value1(), get_adc_latest_value2(), buffer_index);
@@ -856,13 +855,6 @@ static void interactive_test_task(void *pvParameters) {
     
     // 백라이트 ON
     ch423_set_output(CH423_OC_BACKLIGHT, false);
-    /*
-    // FT800 초기화
-    if (initFT800() != 0) {
-        ESP_LOGE(TAG, "FT800 init failed");
-        vTaskDelete(NULL);
-        return;
-    }*/
     
     // 초기 LED 상태 설정
     led_ctrl.selected_led = 0;
@@ -947,7 +939,7 @@ static void interactive_test_task(void *pvParameters) {
         // UI 그리기
         draw_ui();
         
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 

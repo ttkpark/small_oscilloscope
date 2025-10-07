@@ -10,13 +10,16 @@
 #include "esp_adc/adc_continuous.h"
 #include "esp_timer.h"
 #include "ft800.h"
-#include "analog_test_simple.h"
 #include "adc_dma_continuous.h"
 
 static const char *TAG = "HARDWARE_TEST";
 
 // CH423 I2C 주소
 #define CH423_I2C_ADDR 0x20
+
+#define CH423_CMD_IO_OUT        0x48
+#define CH423_CMD_IO_IN         0x49
+#define CH423_CMD_IO_DIR        0x4A
 
 // GPIO 핀 정의
 #define GPIO_RE1B 12

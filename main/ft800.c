@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "esp_log.h"
-#include "analog_test_simple.h"
 #include <math.h>
 
 #define LOG_TAG "FT800"
@@ -37,21 +36,21 @@ uint8_t ft800_read8(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[5] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0 };
     uint8_t rx[5] = {0};
     ft800_spi_transfer(dev, tx, rx, 5);
-    ESP_LOGE(LOG_TAG, "FT800 read8 : %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4]);
+    //ESP_LOGE(LOG_TAG, "FT800 read8 : %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4]);
     return rx[4];
 }
 uint16_t ft800_read16(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[6] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0, 0 };
     uint8_t rx[6] = {0};
     ft800_spi_transfer(dev, tx, rx, 6);
-    ESP_LOGE(LOG_TAG, "FT800 read16: %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5]);
+    //ESP_LOGE(LOG_TAG, "FT800 read16: %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5]);
     return rx[4] | (rx[5] << 8);
 }
 uint32_t ft800_read32(ft800_handle_t *dev, uint32_t addr) {
     uint8_t tx[8] = { ((addr >> 16) & 0x3F), (addr >> 8) & 0xFF, addr & 0xFF, 0, 0, 0, 0, 0 };
     uint8_t rx[8] = {0};
     ft800_spi_transfer(dev, tx, rx, 8);
-    ESP_LOGE(LOG_TAG, "FT800 read32: %02X %02X %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5], rx[6], rx[7]);
+    //ESP_LOGE(LOG_TAG, "FT800 read32: %02X %02X %02X %02X %02X %02X %02X %02X", rx[0], rx[1], rx[2], rx[3], rx[4], rx[5], rx[6], rx[7]);
     return rx[4] | (rx[5] << 8) | (rx[6] << 16) | (rx[7] << 24);
 }
 
@@ -168,7 +167,7 @@ void HOST_CMD_ACTIVE(void)
 {
     uint8_t buf[3] = { 0x00, 0x00, 0x00 };
     ft800_spi_transfer(driver_dev, buf, buf, 3);
-    ESP_LOGE(LOG_TAG, "FT800 HOST_CMD_ACTIVE: %02X %02X %02X", buf[0], buf[1], buf[2]);
+    //ESP_LOGE(LOG_TAG, "FT800 HOST_CMD_ACTIVE: %02X %02X %02X", buf[0], buf[1], buf[2]);
 }
 
 /*
@@ -495,17 +494,7 @@ extern void ft800_isr_handler(void* arg);
 uint8_t initFT800(void)
 {   
 	ft800_handle_t *pdev = get_driver_dev();
-    /*
-    // CH423 테스트 실행
-    uint8_t ch423_data;
-    esp_err_t ret = test_ch423_circuit_simple(&ch423_data);
-    if (ret == ESP_OK) {
-        ESP_LOGI(LOG_TAG, "CH423 test passed, data: 0x%02X", ch423_data);
-    } else {
-        ESP_LOGE(LOG_TAG, "CH423 test failed: %s", esp_err_to_name(ret));
-    }
-    vTaskDelay(pdMS_TO_TICKS(100));*/
-
+    
     // FT800 초기화 (새로운 핀 매핑 사용)
     esp_err_t ret = ft800_init_with_int(pdev, SPI2_HOST, 
                                     FT800_SPI_MOSI_PIN, 
@@ -521,7 +510,7 @@ uint8_t initFT800(void)
 	//WAKE
 	HOST_CMD_ACTIVE();
 	//Read Dev ID
-	uint8_t dev_id = HOST_MEM_RD32(REG_ID+2)&0xFF;      // Read device id
+	uint8_t dev_id = HOST_MEM_RD32(REG_ID)&0xFF;      // Read device id
 	if(dev_id != 0x7C)                  // Device ID should always be 0x7C
 	{   
         ESP_LOGE(LOG_TAG, "FT800 device ID mismatch: 0x%02X", dev_id);
